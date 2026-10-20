@@ -100,3 +100,20 @@ func Checkout(c *fiber.Ctx) error {
 
 	return c.Status(201).JSON(fiber.Map{"message": "Checkout berhasil! Stok produk telah diperbarui."})
 }
+
+// === GET ORDER HISTORY CONTROLLER (BARU) ===
+func GetOrderHistory(c *fiber.Ctx) error {
+	// Ambil user_id dari JWT claims yang disimpan oleh middleware
+	userID := c.Locals("user_id").(uint)
+
+	var orders []models.Order
+	// Ambil data order berdasarkan user_id, sekaligus preload (ambil data) item produk di dalamnya
+	if err := config.DB.Preload("OrderItems").Where("user_id = ?", userID).Find(&orders).Error; err != nil {
+		return c.Status(500).JSON(fiber.Map{"message": "Gagal mengambil riwayat pesanan"})
+	}
+
+	return c.JSON(fiber.Map{
+		"message": "Berhasil mengambil riwayat pesanan",
+		"data":    orders,
+	})
+}
