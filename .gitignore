@@ -1,0 +1,20 @@
+# Binary outputs
+/*.exe
+/*.exe~
+/*.dll
+/*.so
+/*.dylib
+*.test
+*.out
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.swp
+
+# Environment variables / Configs
+.env
+
+# OS specific files
+.DS_Store
+Thumbs.db
